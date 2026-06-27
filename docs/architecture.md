@@ -36,7 +36,7 @@ they require CEO sign-off and are tracked in `docs/decisions/0001-stack.md`.
 | Environment | Where                                  | Deploys when                          |
 | ----------- | -------------------------------------- | ------------------------------------- |
 | local       | developer machine (`npm run dev`)      | n/a                                   |
-| staging     | GitHub Pages (`/istoria-saas`)         | automatically, after CI passes on `main` |
+| staging     | GitHub Pages — https://mhelaiwa.github.io/istoria-saas/ | `npm run deploy:staging` (manual today); auto on green `main` once `workflow` scope is granted |
 | production  | TBD (Vercel, pending sign-off)         | TBD                                   |
 
 Staging today is a **static export** — it proves the CI/CD pipeline end-to-end with a
@@ -70,6 +70,11 @@ vitest.config.ts     Test runner config
    Pages. The deployed page stamps the commit SHA so you can confirm what's live.
 
 A red CI run never deploys (`deploy` is gated on `workflow_run.conclusion == 'success'`).
+
+> **Activation status:** the workflow YAML files are authored and validated locally, but
+> not yet pushed — the current GitHub token lacks the `workflow` OAuth scope. Until that's
+> granted (see runbook), CI checks run locally (`npm run` scripts, all green) and staging
+> deploys via `npm run deploy:staging`. This is the one named blocker on full automation.
 
 ## 6. Planned (not yet built)
 

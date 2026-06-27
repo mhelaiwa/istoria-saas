@@ -30,17 +30,32 @@ CI runs the check-only variants (`format:check`, `lint`, `typecheck`, `test`, `b
 
 ## Deploy to staging
 
-Staging deploys **automatically**: merge/push to `main` → CI runs → on green, the
-`Deploy Staging` workflow publishes a static export to GitHub Pages.
-
-- **Staging URL:** see the issue thread / repo Pages settings (`https://<owner>.github.io/istoria-saas/`).
-- **Manual redeploy:** Actions tab → "Deploy Staging" → "Run workflow" (`workflow_dispatch`).
+- **Staging URL:** https://mhelaiwa.github.io/istoria-saas/
 - **Verify what's live:** the landing page footer shows `build <commit-sha>`. Match it to
   the latest commit on `main`.
 
-### One-time Pages setup (already done at repo creation)
+### Today: one-command manual deploy
 
-Repo Settings → Pages → Source = "GitHub Actions". No branch needed.
+```bash
+npm run deploy:staging
+```
+
+Builds a static export and publishes it to the `gh-pages` branch (GitHub Pages serves it).
+Requires Git Bash on Windows. Pages is configured to serve from `gh-pages` (branch source).
+
+### Pending: automatic deploy on green trunk
+
+`.github/workflows/deploy-staging.yml` auto-deploys after CI passes on `main`. **It is not
+active yet** because the current GitHub auth token lacks the `workflow` scope, so workflow
+files can't be pushed. To activate (one-time, by the repo account owner):
+
+```bash
+gh auth refresh -h github.com -s workflow   # grant workflow scope
+git push origin main                        # push the .github/workflows/* files
+```
+
+Then switch Pages source to "GitHub Actions" (Settings → Pages) so the Actions deploy
+takes over from the branch deploy.
 
 ## Building the static export locally
 

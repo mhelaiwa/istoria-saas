@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "deploy:staging": "bash scripts/deploy-staging.sh"
   },
   "dependencies": {
     "next": "16.2.9",
